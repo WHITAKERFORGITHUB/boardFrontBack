@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Board List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Board List</h1>
+    <table id="boardTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 데이터가 여기에 동적으로 추가될 예정 -->
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('http://localhost:8080/boardBack/list')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('boardTable').getElementsByTagName('tbody')[0];
+                    data.forEach(item => {
+                        const row = tableBody.insertRow();
+                        const cellId = row.insertCell(0);
+                        const cellTitle = row.insertCell(1);
+                        const cellContent = row.insertCell(2);
+
+                        cellId.textContent = item.id;
+                        cellTitle.textContent = item.title;
+                        cellContent.textContent = item.content;
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+</body>
+</html>
